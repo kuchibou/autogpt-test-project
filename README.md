@@ -1,2 +1,52 @@
-# autogpt-test-project
-A minimal repository for testing Auto-GPT behavior
+# 法令読み上げスキル（Alexa カスタムスキル）
+
+このリポジトリは、日本の法令条文を e-Gov 法令 API から取得し、
+Alexa がユーザの指定した法令名と条番号に応じて条文を読み上げる
+カスタムスキルのプロジェクトです。
+
+## 特徴
+
+- 法令データは **ローカル保存せず**、毎回 e-Gov 法令 API から取得します。
+- 法令の改正・施行に追従するため、キャッシュや独自データベースは使用しません。
+- Alexa-hosted (Node.js) を前提とした構成です。
+- ホストリージョンは **米国西部（オレゴン）** を想定しています。
+
+## 構成
+
+- `lambda/index.js`  
+  Alexa-hosted (Node.js) 用の Lambda 関数本体です。  
+  ユーザの発話から法令名と条番号を解釈し、e-Gov API を呼び出して条文を取得し、
+  読み上げ用に整形したテキストを Alexa に返します。
+
+- `models/ja-JP.json`  
+  日本語向けインタラクションモデルです。  
+  法令名と条番号をスロットとして受け取り、「◯◯法の第◯条を読んで」といった
+  発話を処理できるようにします。
+
+- `docs/egov_api_spec.md`  
+  e-Gov 法令 API の仕様を、Lambda から実装しやすい形で整理した補助資料です。
+
+- `docs/lambda_design.md`  
+  「キャッシュなしで e-Gov API を叩く Lambda の最適化戦略」をまとめた設計書です。  
+  タイムアウトを避けるための処理フローや制約が記載されています。
+
+- `docs/autogpt_prompt.md`  
+  Auto-GPT にこのプロジェクトを実装・改善させるためのプロンプト定義です。
+
+## セキュリティと方針
+
+- このリポジトリはパブリック公開を前提としています。
+- API キーやスキル ID などの秘密情報は一切含めません。
+- Alexa-hosted スキルでは、スキル ID と Lambda の紐付けは
+  Alexa Developer Console 側で行います。コード内にハードコードしません。
+
+## 想定する実行環境
+
+- Alexa Developer Console  
+  - モデル: カスタム  
+  - ホスティング: Alexa-hosted (Node.js)  
+  - ホストリージョン: 米国西部（オレゴン）
+
+- e-Gov 法令 API  
+  - 認証不要の公開 API  
+  - 日本国内に設置されていることを前提とします。
