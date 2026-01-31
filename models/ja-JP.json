@@ -1,0 +1,41 @@
+{
+  "interactionModel": {
+    "languageModel": {
+      "invocationName": "法令読み上げスキル",
+      "intents": [
+        {
+          "name": "ReadLawIntent",
+          "slots": [
+            {
+              "name": "LawName",
+              "type": "AMAZON.SearchQuery"
+            },
+            {
+              "name": "ArticleNumber",
+              "type": "AMAZON.NUMBER"
+            }
+          ],
+          "samples": [
+            "{LawName}の第{ArticleNumber}条を読んで",
+            "{LawName}{ArticleNumber}条を読んで",
+            "{LawName}の{ArticleNumber}条",
+            "{LawName}{ArticleNumber}条"
+          ]
+        },
+        {
+          "name": "AMAZON.HelpIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.CancelIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.StopIntent",
+          "samples": []
+        }
+      ],
+      "types": []
+    }
+  }
+}
